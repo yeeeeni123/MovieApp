@@ -1,57 +1,47 @@
 package com.example.movieapp.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Shapes
+import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
+import com.example.movieapp.ui.theme.color.ColorSet
+import com.example.movieapp.ui.theme.color.MyColors
 
-private val DarkColorScheme = darkColors(
-    primary = Purple80,
-    primaryVariant = PurpleGrey80,
-    secondary = Pink80
-)
-
-private val LightColorScheme = lightColors(
-    primary = Purple40,
-    primaryVariant = PurpleGrey40,
-    secondary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
+private val LocalColors = staticCompositionLocalOf { ColorSet.Red.LightColors }
 
 @Composable
 fun MovieAppTheme(
+    myColors: ColorSet = ColorSet.Red,
+    typography: Typography = Typography,
+    shapes: Shapes = Shapes,
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
-        DarkColorScheme
+        myColors.DarkColors
     } else {
-        LightColorScheme
+        myColors.LightColors
     }
 
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
+    CompositionLocalProvider(LocalColors provides colors) {
+        MaterialTheme(
+            colors = colors.material,
+            typography = Typography,
+            shapes = shapes,
+            content = content
+        )
+    }
 }
+
+val MaterialTheme.colorScheme: MyColors
+@Composable
+@ReadOnlyComposable
+get() = LocalColors.current
