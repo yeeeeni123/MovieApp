@@ -1,4 +1,4 @@
-package com.example.movieapp.ui.components.movie.buttons
+package com.example.movieapp.ui.components.buttons
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -19,14 +19,15 @@ import com.example.movieapp.ui.theme.Paddings
 import com.example.movieapp.ui.theme.colorScheme
 
 @Composable
-fun SecondaryBorderlessButton(
+fun UnderlinedTextButton(
     modifier: Modifier = Modifier,
     @StringRes id: Int? = null,
     text: String = "",
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
@@ -43,7 +44,7 @@ fun SecondaryBorderlessButton(
         ) {
             Text(
                 text = id?.let { stringResource(id = id) } ?: text,
-                style = MaterialTheme.typography.button,
+                style = MaterialTheme.typography.subtitle1,
                 modifier = Modifier.padding(Paddings.small)
             )
         }
@@ -52,10 +53,10 @@ fun SecondaryBorderlessButton(
 
 @Preview
 @Composable
-fun SecondaryBorderlessButtonPreview() {
+fun UnderlinedTextButtonPreview() {
     MovieAppTheme {
-        SecondaryBorderlessButton(
-            text = "CANCEL"
+        UnderlinedTextButton(
+            text = "SUBMIT"
         ) {}
     }
 }
